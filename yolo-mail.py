@@ -49,14 +49,14 @@ def convert(input):
         return input
 
 def check_mail(all):
-    ssh_flags = "grep metadata /var/crypt/"+ DEFAULT_USER +"/*"
+    ssh_flags = "grep -h metadata /var/crypt/"+ DEFAULT_USER +"/*"
     try:
         ssh_out = subprocess.check_output(['ssh', 'ssh.yoloinvest.com', ssh_flags], stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError:
         print 'No messages'
         return
 
-    mails = [convert(json.loads(x.split(':', 1)[1])) for x in ssh_out.split('\n')[:-1]]
+    mails = [convert(json.loads(x)) for x in ssh_out.split('\n')[:-1]]
 
     table = [["Name", "Subject", "Sent at:"]]
 
