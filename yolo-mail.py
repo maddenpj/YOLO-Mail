@@ -72,6 +72,10 @@ def check_mail(all):
            continue
         table += line
 
+    if(len(table) == 1):
+        print 'No unread messages'
+        return
+
     pprint_table(table)
 
 def read_mail(ymail):
