@@ -108,6 +108,10 @@ def read_mail(ymail):
 
 
 def send_mail(recipient, msg_file):
+
+    subject = raw_input('Enter a Subject line: ')
+    subject = subject if subject != '' else '(No Subject)'
+
     sys.argv = ['', msg_file]
     msg = ''.join([x for x in fileinput.input()])
     f = tempfile.NamedTemporaryFile(delete=False)
@@ -120,9 +124,6 @@ def send_mail(recipient, msg_file):
     asc = open(f.name+'.asc').readlines()
     os.remove(f.name)
     os.remove(f.name +'.asc')
-
-    subject = raw_input('Enter a Subject line: ')
-    subject = subject if subject != '' else '(No Subject)'
 
     f = tempfile.NamedTemporaryFile(delete=False)
     metadata = { 'metadata': {
