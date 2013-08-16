@@ -65,7 +65,7 @@ def check_mail(all):
 
     for i in mails:
         mail = i['metadata']
-        line = [[ mail['name'].split('/')[-1], mail['subject'], mail['sent']]]
+        line = [[mail['name'], mail['subject'], mail['sent']]]
         if all:
             line[0].append("Unread" if mail['read'] == None else mail['read'])
         elif mail['read'] != None:
@@ -124,10 +124,10 @@ def send_mail(recipient, msg_file):
     asc = open(f.name+'.asc').readlines()
     os.remove(f.name)
     os.remove(f.name +'.asc')
-
     f = tempfile.NamedTemporaryFile(delete=False)
+    fname = f.name.split('/')[-1]
     metadata = { 'metadata': {
-        'name': f.name,
+        'name': fname,
         'subject': subject,
         'sent': datetime.datetime.now(),
         'read': None
@@ -142,6 +142,9 @@ def send_mail(recipient, msg_file):
     ssh_cmd = ['scp', f.name, 'ssh.yoloinvest.com:/var/crypt/'+ recipient]
     sys.stdout.write('Sending...  ')
     ssh_out = subprocess.check_output(ssh_cmd)
+    owner_cmd = ['ssh', 'ssh.yoloinvest.com', "chgrp yolo /var/crypt/"+recipient+"/"+fname]
+    owner_out = subprocess.check_output(owner_cmd)
+    subprocess.check_output(['ssh', 'ssh.yoloinvest.com', "chmod g+rwx /var/crypt/"+recipient+"/"+fname])
     sys.stdout.write('Done.\n')
 
     os.remove(f.name)
