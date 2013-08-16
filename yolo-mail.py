@@ -112,6 +112,9 @@ def send_mail(recipient, msg_file):
     subject = raw_input('Enter a Subject line: ')
     subject = subject if subject != '' else '(No Subject)'
 
+    if msg_file == '-':
+        print "Enter your message (End with Ctrl-D)"
+
     sys.argv = ['', msg_file]
     msg = ''.join([x for x in fileinput.input()])
     f = tempfile.NamedTemporaryFile(delete=False)
