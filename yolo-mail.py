@@ -11,6 +11,14 @@ DEFAULT_USER='patrick'
 contacts = { 'faiz': 'Faiz Khan', 'patrick': 'Patrick Madden' }
 
 
+
+
+
+
+#####################
+# Mailing Functions #
+#####################
+
 def check_mail(all):
     if all:
         ssh_flags = "ls -ltr /var/crypt/"+ DEFAULT_USER +" | grep -v total | awk '{print $9}'"
@@ -52,7 +60,9 @@ def send_mail(recipient, msg_file):
 
 
 
-
+#################
+# Parse options #
+#################
 
 
 parser = argparse.ArgumentParser(prog='yolo-mail')
